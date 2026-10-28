@@ -1,0 +1,89 @@
+:root{
+  --bg:#060f1f; --panel:#0a1a2f; --borde:#15406a; --txt:#e8f0fa; --muted:#8fa6c2;
+  --verde:#16c47a; --cian:#22d3ee; --rojo:#ff3b4a; --ambar:#f5a524;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  display:flex;flex-direction:column;min-height:100vh}
+.g{color:var(--verde)}
+
+/* ---------- encabezado ---------- */
+.topbar{display:flex;align-items:center;gap:20px;padding:10px 22px;border-bottom:1px solid #12335a;
+  background:linear-gradient(180deg,#081528,#060f1f)}
+.brand{display:flex;align-items:center;gap:10px;padding-right:20px;border-right:1px solid #12335a;flex:none}
+.brand img{height:46px;width:auto}
+.brand-name{font-weight:600;font-size:18px;line-height:1.1}
+.topbar h1{flex:1;font-size:clamp(14px,1.7vw,23px);line-height:1.25;font-weight:700}
+.aliados{display:flex;align-items:center;gap:12px;flex:none}
+.aliados img{height:40px;width:auto}
+.chip{border:1px solid #1d6fb8;border-radius:12px;padding:9px 16px;background:#0a2442;color:#bcd6f2;font-size:15px}
+.chip b{color:#fff}
+
+/* ---------- layout ---------- */
+.layout{flex:1;display:grid;grid-template-columns:minmax(330px,36%) 1fr;gap:16px;padding:16px 22px;min-height:0}
+.panel-izq{display:flex;flex-direction:column;gap:14px;overflow-y:auto;padding-right:2px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:14px 16px}
+.card h2{font-size:17px;font-weight:600;margin-bottom:12px}
+.card h2 small{font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+
+/* ---------- formulario ---------- */
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{font-size:13px;color:#b7c9df;display:flex;flex-direction:column;gap:5px}
+input{background:#071427;border:1px solid #1d4a78;border-radius:6px;color:#fff;padding:10px 12px;font-size:16px;outline:none}
+input:focus{border-color:var(--cian);box-shadow:0 0 0 2px #22d3ee33}
+button{margin-top:12px;width:100%;background:var(--verde);color:#04170d;border:0;border-radius:6px;
+  padding:12px;font-size:16px;font-weight:700;cursor:pointer;transition:filter .15s}
+button:hover{filter:brightness(1.1)} button:disabled{opacity:.6;cursor:wait}
+.ayuda{margin-top:8px;font-size:12px;color:var(--muted)}
+
+/* ---------- veredicto ---------- */
+.veredicto{display:flex;gap:16px;align-items:center;padding:16px;border-radius:8px;border:1px solid;transition:all .3s}
+.veredicto .icono{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;
+  font-size:34px;font-weight:800;color:#fff}
+.v-titulo{font-size:21px;font-weight:800;letter-spacing:.3px}
+.v-texto{font-size:16px;font-weight:600;margin-top:2px}
+.v-prob{margin-top:8px;font-size:15px}
+.neutro{background:#0b1f38;border-color:#1d4a78}.neutro .icono{background:#1d4a78}.neutro .v-titulo{color:var(--muted)}
+.alto{background:#2a0c14;border-color:var(--rojo)}.alto .icono{background:var(--rojo)}.alto .v-titulo{color:var(--rojo)}
+.medio{background:#2b1d08;border-color:var(--ambar)}.medio .icono{background:var(--ambar);color:#2b1d08}.medio .v-titulo{color:var(--ambar)}
+.bajo{background:#07261a;border-color:var(--verde)}.bajo .icono{background:var(--verde);color:#04170d}.bajo .v-titulo{color:var(--verde)}
+.error{background:#241a08;border-color:#7a5a1a}.error .icono{background:#7a5a1a}.error .v-titulo{color:#f0c56b}
+
+/* ---------- indicadores ---------- */
+.ind{padding:9px 0;border-top:1px solid #12335a}.ind:first-child{border-top:0;padding-top:0}
+.ind-h{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}
+.ind-h em{font-style:normal;color:var(--muted);font-size:12.5px;margin-left:4px}
+.ind-h .val{font-variant-numeric:tabular-nums;font-weight:600}
+.barra{height:9px;background:#12263f;border-radius:6px;overflow:hidden}
+.barra i{display:block;height:100%;width:0;border-radius:6px;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.nota{margin-top:10px;font-size:12px;color:#f0c56b;min-height:0}
+
+/* ---------- acerca ---------- */
+.acerca summary{cursor:pointer;font-weight:600;font-size:15px}
+.acerca ul{margin:12px 0 0 18px;font-size:13px;color:#b7c9df;display:grid;gap:7px;line-height:1.45}
+
+/* ---------- mapa ---------- */
+.mapa-wrap{position:relative;border:1px solid var(--borde);border-radius:10px;overflow:hidden;min-height:480px}
+#mapa{position:absolute;inset:0;background:#0a1a2f}
+.mapa-titulo{position:absolute;top:10px;left:10px;z-index:500;background:#081528ee;border:1px solid #1d4a78;
+  border-radius:8px;padding:8px 14px;font-weight:600;font-size:14px}
+.leyenda{position:absolute;right:12px;bottom:28px;z-index:500;background:#081528ee;border:1px solid #1d4a78;
+  border-radius:8px;padding:10px 14px;font-size:13px;display:grid;gap:5px;max-width:220px}
+.leyenda .peq{font-size:11px;color:var(--muted);margin-top:3px}
+.sw{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:6px;vertical-align:-2px;border:0}
+.sw.alto{background:var(--rojo)}.sw.medio{background:var(--ambar)}.sw.bajo{background:var(--verde)}
+.leaflet-container{font-family:inherit}
+.pin{width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;
+  box-shadow:0 2px 8px #0009;margin:-26px 0 0 -13px}
+.pin::after{content:"";position:absolute;inset:6px;background:#fff;border-radius:50%}
+.pie{padding:8px 22px 14px;font-size:11.5px;color:var(--muted);text-align:center}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .topbar{flex-wrap:wrap;gap:10px}.brand{border:0;padding:0}.aliados{display:none}
+  .layout{grid-template-columns:1fr;padding:12px}
+  .panel-izq{overflow:visible}
+  .mapa-wrap{height:62vh;min-height:380px}
+  .leyenda{display:none}
+}

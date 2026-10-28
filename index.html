@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IA para la detección de riesgo de botaderos informales · Cajamarca</title>
+  <meta name="description" content="Modelamiento espacial del riesgo de botaderos informales en Cajamarca con Sentinel-2, Landsat y Random Forest.">
+  <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <!-- Logo del equipo: si no existe assets/img/logo-equipo.png se usa logo.svg -->
+    <img id="logo-equipo" src="assets/img/logo-equipo.png" alt="Logo del equipo"
+         onerror="this.onerror=null;this.src='assets/img/logo.svg'">
+    <span class="brand-name">Análisis<br>Satelital</span>
+  </div>
+  <h1>IA para la Detección y Modelamiento Espacial de <span class="g">Riesgo</span><br>
+      de <span class="g">Botaderos Informales</span> en el departamento de Cajamarca</h1>
+  <div class="aliados">
+    <!-- Logos opcionales: si el archivo no existe, se ocultan solos -->
+    <img src="assets/img/logo-uni.png" alt="UNI" onerror="this.remove()">
+    <img src="assets/img/logo-fia.png" alt="FIA-UNI" onerror="this.remove()">
+    <span class="chip">📍 Región: <b>Cajamarca</b></span>
+  </div>
+</header>
+
+<main class="layout">
+  <aside class="panel-izq">
+
+    <section class="card">
+      <h2>📍 Ingreso de Coordenadas</h2>
+      <form id="form" autocomplete="off">
+        <div class="fila">
+          <label>Latitud (Y)
+            <input id="lat" inputmode="decimal" placeholder="-7.1517" value="-7.1517">
+          </label>
+          <label>Longitud (X)
+            <input id="lon" inputmode="decimal" placeholder="-78.5128" value="-78.5128">
+          </label>
+        </div>
+        <button id="btn" type="submit">🔍 Analizar Zona</button>
+        <p class="ayuda">Formato decimal (WGS84). También puedes hacer clic en el mapa.</p>
+      </form>
+    </section>
+
+    <section class="card" id="card-resultado">
+      <h2>⚠️ Resultado de Predicción</h2>
+      <div id="veredicto" class="veredicto neutro">
+        <div class="icono">?</div>
+        <div>
+          <div class="v-titulo">Esperando análisis</div>
+          <div class="v-texto">Ingresa una coordenada y presiona «Analizar Zona».</div>
+          <div class="v-prob" id="v-prob"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>📊 Indicadores Espectrales <small>Sentinel-2 · Landsat 8/9</small></h2>
+      <div id="indicadores">
+        <div class="ind" data-k="NDVI"><div class="ind-h"><span><b>NDVI</b> <em>Índice de vegetación</em></span><span class="val">—</span></div><div class="barra"><i style="background:#22d36b"></i></div></div>
+        <div class="ind" data-k="NDBI"><div class="ind-h"><span><b>NDBI</b> <em>Índice de áreas construidas</em></span><span class="val">—</span></div><div class="barra"><i style="background:#e0954f"></i></div></div>
+        <div class="ind" data-k="SAVI"><div class="ind-h"><span><b>SAVI</b> <em>Vegetación ajustada al suelo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#2ab0ff"></i></div></div>
+        <div class="ind" data-k="BSI"><div class="ind-h"><span><b>BSI</b> <em>Índice de suelo desnudo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#7c5cff"></i></div></div>
+        <div class="ind" data-k="LST"><div class="ind-h"><span><b>LST</b> <em>Temperatura superficial</em></span><span class="val">—</span></div><div class="barra"><i style="background:#ff4b55"></i></div></div>
+      </div>
+      <p id="nota-datos" class="nota"></p>
+    </section>
+
+    <details class="card acerca">
+      <summary>ℹ️ Acerca del modelo y sus límites</summary>
+      <ul>
+        <li><b>Modelo:</b> Random Forest (200 árboles) entrenado con 170 botaderos del inventario OEFA y 1 019 pseudo-ausencias.</li>
+        <li><b>Validación (30 % de prueba):</b> ROC-AUC 0,87 · Recall 0,67 · Precisión 0,52.</li>
+        <li><b>Datos:</b> composición mediana de temporadas secas (may–sep) 2025–2026, remuestreada a ≈110 m para la web.</li>
+        <li><b>Interpretación:</b> el porcentaje es la probabilidad estimada por el modelo, no una confirmación en campo. Con precisión de 0,52, cerca de la mitad de las alertas altas pueden ser falsos positivos; debe verificarse con inspección o imagen de alta resolución.</li>
+      </ul>
+    </details>
+  </aside>
+
+  <section class="mapa-wrap">
+    <div id="mapa"></div>
+    <div class="mapa-titulo">🛰️ Mapa Satelital · Cajamarca</div>
+    <div class="leyenda">
+      <b>Leyenda</b>
+      <div><i class="sw alto"></i> Riesgo alto</div>
+      <div><i class="sw medio"></i> Riesgo moderado</div>
+      <div><i class="sw bajo"></i> Riesgo bajo</div>
+      <div class="peq">El recuadro marca el píxel analizado (≈110 × 110 m).</div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  Proyecto académico · Ingeniería de Residuos Sólidos · UNI · Imágenes base: Esri World Imagery · Índices: Copernicus Sentinel-2 y Landsat 8/9 (USGS) vía Google Earth Engine
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

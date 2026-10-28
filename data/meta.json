@@ -1,0 +1,1 @@
+{"res": 0.001, "tile": 128, "lon0": -79.488, "lat0": -4.6080000000000005, "ncols": 14, "nrows": 25, "bandas": ["NDVI", "NDBI", "BSI", "SAVI", "LST"], "rangos": {"NDVI": [-1, 1], "NDBI": [-1, 1], "BSI": [-1, 1], "SAVI": [-1, 1.5], "LST": [-10, 60]}, "nodata": 255}

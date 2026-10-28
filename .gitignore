@@ -1,0 +1,4 @@
+*.tif
+*.joblib
+__pycache__/
+.vscode/
