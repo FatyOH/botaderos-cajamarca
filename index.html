@@ -57,19 +57,45 @@
           <div class="v-prob" id="v-prob"></div>
         </div>
       </div>
+      <div id="oefa-cerca" class="oefa-cerca" hidden></div>
+    </section>
+
+    <section class="card" id="card-expo" hidden>
+      <h2>🏘️ Exposición a viviendas</h2>
+      <div id="expo" class="expo neutro">
+        <div class="expo-dist" id="expo-dist">—</div>
+        <div>
+          <div class="expo-nivel" id="expo-nivel">Esperando análisis</div>
+          <div class="expo-det" id="expo-det">Distancia a la edificación más cercana.</div>
+        </div>
+      </div>
+      <div class="escala"><span><i class="sw alto"></i>≤ 20 m</span><span><i class="sw medio"></i>≤ 100 m</span><span><i class="sw bajo"></i>≤ 200 m</span></div>
+      <div id="prioridad" class="prioridad" hidden>Prioridad de atención: <b id="prio-txt">—</b></div>
+    </section>
+
+    <section class="card" id="card-entorno" hidden>
+      <h2>🌊 Entorno cercano <small>informativo</small></h2>
+      <div class="ent" id="ent-agua"><span class="ent-i">💧</span><div><div class="ent-t">Recurso hídrico superficial</div><div class="ent-v" id="ent-agua-v">—</div></div></div>
+      <div class="ent" id="ent-vias"><span class="ent-i">🛣️</span><div><div class="ent-t">Vía de acceso</div><div class="ent-v" id="ent-vias-v">—</div></div></div>
+      <p class="nota-ent">Referencial: no entra al cálculo del riesgo. Depende de lo completa que esté la cartografía (ríos y quebradas pequeñas o caminos rurales pueden faltar). Se busca hasta 500 m.</p>
     </section>
 
     <section class="card">
       <h2>📊 Indicadores Espectrales <small>Sentinel-2 · Landsat 8/9</small></h2>
       <div id="indicadores">
-        <div class="ind" data-k="NDVI"><div class="ind-h"><span><b>NDVI</b> <em>Índice de vegetación</em></span><span class="val">—</span></div><div class="barra"><i style="background:#22d36b"></i></div></div>
-        <div class="ind" data-k="NDBI"><div class="ind-h"><span><b>NDBI</b> <em>Índice de áreas construidas</em></span><span class="val">—</span></div><div class="barra"><i style="background:#e0954f"></i></div></div>
-        <div class="ind" data-k="SAVI"><div class="ind-h"><span><b>SAVI</b> <em>Vegetación ajustada al suelo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#2ab0ff"></i></div></div>
-        <div class="ind" data-k="BSI"><div class="ind-h"><span><b>BSI</b> <em>Índice de suelo desnudo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#7c5cff"></i></div></div>
-        <div class="ind" data-k="LST"><div class="ind-h"><span><b>LST</b> <em>Temperatura superficial</em></span><span class="val">—</span></div><div class="barra"><i style="background:#ff4b55"></i></div></div>
+        <div class="ind" data-k="NDVI"><div class="ind-h"><span><b>NDVI</b> <em>Índice de vegetación</em></span><span class="val">—</span></div><div class="barra"><i style="background:#22d36b"></i></div><div class="ind-txt">—</div></div>
+        <div class="ind" data-k="NDBI"><div class="ind-h"><span><b>NDBI</b> <em>Índice de áreas construidas</em></span><span class="val">—</span></div><div class="barra"><i style="background:#e0954f"></i></div><div class="ind-txt">—</div></div>
+        <div class="ind" data-k="SAVI"><div class="ind-h"><span><b>SAVI</b> <em>Vegetación ajustada al suelo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#2ab0ff"></i></div><div class="ind-txt">—</div></div>
+        <div class="ind" data-k="BSI"><div class="ind-h"><span><b>BSI</b> <em>Índice de suelo desnudo</em></span><span class="val">—</span></div><div class="barra"><i style="background:#7c5cff"></i></div><div class="ind-txt">—</div></div>
+        <div class="ind" data-k="LST"><div class="ind-h"><span><b>LST</b> <em>Temperatura superficial</em></span><span class="val">—</span></div><div class="barra"><i style="background:#ff4b55"></i></div><div class="ind-txt">—</div></div>
       </div>
       <p id="nota-datos" class="nota"></p>
     </section>
+
+    <details class="card guia">
+      <summary>📖 ¿Qué significa cada índice?</summary>
+      <div id="guia"></div>
+    </details>
 
     <details class="card acerca">
       <summary>ℹ️ Acerca del modelo y sus límites</summary>
@@ -77,6 +103,7 @@
         <li><b>Modelo:</b> Random Forest (200 árboles) entrenado con 170 botaderos del inventario OEFA y 1 019 pseudo-ausencias.</li>
         <li><b>Validación (30 % de prueba):</b> ROC-AUC 0,87 · Recall 0,67 · Precisión 0,52.</li>
         <li><b>Datos:</b> composición mediana de temporadas secas (may–sep) 2025–2026, remuestreada a ≈110 m para la web.</li>
+        <li><b>Exposición a viviendas:</b> distancia al centroide de la edificación más cercana (Google Open Buildings V3, 2023, ≥ 70 % de confianza). Los umbrales de 20 / 100 / 200 m son un <u>criterio propuesto por el equipo</u>, no una norma. Para infraestructura formal de residuos, las guías del MINAM piden ≥ 1 km a poblaciones; estar a más de 200 m de una vivienda <u>no</u> implica cumplir esa distancia.</li>
         <li><b>Interpretación:</b> el porcentaje es la probabilidad estimada por el modelo, no una confirmación en campo. Con precisión de 0,52, cerca de la mitad de las alertas altas pueden ser falsos positivos; debe verificarse con inspección o imagen de alta resolución.</li>
       </ul>
     </details>
@@ -90,16 +117,42 @@
       <div><i class="sw alto"></i> Riesgo alto</div>
       <div><i class="sw medio"></i> Riesgo moderado</div>
       <div><i class="sw bajo"></i> Riesgo bajo</div>
+      <div><i class="sw oefa"></i> Botadero registrado (OEFA)</div>
+      <div class="peq">Anillos: 20 m (rojo), 100 m (ámbar), 200 m (verde) para la exposición a viviendas.</div>
       <div class="peq">El recuadro marca el píxel analizado (≈110 × 110 m).</div>
     </div>
   </section>
 </main>
 
 <footer class="pie">
-  Proyecto académico · Ingeniería de Residuos Sólidos · UNI · Imágenes base: Esri World Imagery · Índices: Copernicus Sentinel-2 y Landsat 8/9 (USGS) vía Google Earth Engine
+  Proyecto académico · Ingeniería de Residuos Sólidos · UNI · Botaderos registrados: OEFA · Imágenes base: Esri World Imagery · Índices: Copernicus Sentinel-2 y Landsat 8/9 (USGS) vía Google Earth Engine
 </footer>
 
+<!-- Asistente GeoBot -->
+<div id="bot" class="bot" aria-live="polite">
+  <div id="bot-bubble" class="bot-bubble" hidden>
+    <button id="bot-cerrar" class="bot-x" aria-label="Cerrar">×</button>
+    <div id="bot-titulo" class="bot-titulo"></div>
+    <div id="bot-texto" class="bot-texto"></div>
+    <div id="bot-acciones" class="bot-acciones"></div>
+  </div>
+  <button id="bot-btn" class="bot-btn" aria-label="Ayuda de GeoBot" title="¿Necesitas ayuda? Haz clic">
+    <svg viewBox="0 0 80 90" width="64" height="72" aria-hidden="true">
+      <line x1="40" y1="6" x2="40" y2="18" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+      <circle class="ant" cx="40" cy="6" r="4.5" fill="#16c47a"/>
+      <rect x="12" y="18" width="56" height="44" rx="14" fill="#0e2a4d" stroke="#22d3ee" stroke-width="3"/>
+      <rect x="4" y="32" width="8" height="14" rx="3" fill="#22d3ee"/><rect x="68" y="32" width="8" height="14" rx="3" fill="#22d3ee"/>
+      <g class="ojos"><circle cx="30" cy="38" r="6" fill="#e8fbff"/><circle cx="50" cy="38" r="6" fill="#e8fbff"/>
+      <circle cx="31" cy="39" r="2.6" fill="#0b1b33"/><circle cx="51" cy="39" r="2.6" fill="#0b1b33"/></g>
+      <path d="M29 51 Q40 59 51 51" fill="none" stroke="#16c47a" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="22" y="64" width="36" height="20" rx="8" fill="#0e2a4d" stroke="#22d3ee" stroke-width="3"/>
+      <circle cx="40" cy="74" r="4" fill="#16c47a"/>
+    </svg>
+  </button>
+</div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/geo.js"></script>
 <script src="assets/js/app.js"></script>
 </body>
 </html>

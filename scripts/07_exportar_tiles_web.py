@@ -23,7 +23,7 @@ from rasterio.warp import reproject, Resampling, transform_bounds
 TIF_PATTERN = sys.argv[1] if len(sys.argv) > 1 else \
     r"C:\Users\sthef\Downloads\ING_RESIDUOS\IA-RESIDUOS\Script\GEE_Cajamarca_Botaderos\Cajamarca_S2_indices_LST_secas_2025_2026*.tif"
 SALIDA = "data"
-RES = 0.001          # grados por píxel (≈110 m). Baja a 0.0005 para más detalle (4x más archivos)
+RES = 0.0005          # grados por píxel (≈110 m cuando está en 0.001). En 0.0005 para más detalle (4x más archivos)
 TILE = 128           # píxeles por mosaico
 NODATA = -9999
 BANDAS = ["NDVI", "NDBI", "BSI", "SAVI", "LST"]
@@ -86,7 +86,8 @@ for r in range(nrows):
         guardados += 1; bytes_tot += q.nbytes
     print(f"fila {r+1}/{nrows} lista", end="\r")
 
-meta = {"res": RES, "tile": TILE, "lon0": float(lon0), "lat0": float(lat0),
+meta = {"bbox": [round(W, 5), round(S, 5), round(E, 5), round(N, 5)],   # [oeste, sur, este, norte] reales de tus rasters
+        "res": RES, "tile": TILE, "lon0": float(lon0), "lat0": float(lat0),
         "ncols": ncols, "nrows": nrows, "bandas": BANDAS,
         "rangos": {k: list(v) for k, v in RANGOS.items()}, "nodata": 255}
 with open(os.path.join(SALIDA, "meta.json"), "w") as f:
