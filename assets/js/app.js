@@ -79,7 +79,7 @@
   const mapa = L.map("mapa", { zoomControl: true, minZoom: 6 }).setView([-6.5, -78.6], 8);
   const satelite = L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    { maxZoom: 19, maxNativeZoom: 17, attribution: "Imágenes © Esri, Maxar, Earthstar Geographics" };
+    { maxZoom: 19, maxNativeZoom:17, attribution: "Imágenes © Esri, Maxar, Earthstar Geographics" }).addTo(mapa);
   const etiquetas = L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
     { maxZoom: 18, opacity: 0.9 });
