@@ -7,7 +7,7 @@
   const UMBRAL_ALTO = 0.50;   // = umbral por defecto de predict() con que se evaluó el modelo
   const UMBRAL_MEDIO = 0.30;
   const LST_IMPUTADA = 27.0;  // °C, solo si falta LST en el píxel
-  const ZOOM_ANALISIS = 16;
+  const ZOOM_ANALISIS = 18;   // antes:16
   const MARGEN_VECINOS = 0.004;                         // ° (≈440 m): mosaicos vecinos a revisar
   const RADIOS = [[200, "#16c47a"], [100, "#f5a524"], [20, "#ff3b4a"]]; // anillos de exposición (m)
   const RUTA = { modelo: "data/model_rf.json", meta: "data/meta.json", tiles: "data/tiles/", edif: "data/edif/", oefa: "data/botaderos_oefa.geojson", agua: "data/agua/", vias: "data/vias/" };
